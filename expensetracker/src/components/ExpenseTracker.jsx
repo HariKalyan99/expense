@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styles from "./ExpenseTracker.module.css";
 import ExpenseModal from "./ExpenseModal";
+import ExpensePie from "./ExpensePie";
 
 const ExpenseTracker = ({expensesData, handleReset}) => {
     const [showWallet, setShowWallet] = useState(0);
@@ -54,6 +55,7 @@ const ExpenseTracker = ({expensesData, handleReset}) => {
 
   return (
     <div className={styles.expenseContainer}>
+        
       <div className={styles.walletContainer}>
         <button onClick={() => {
             handleReset();
@@ -67,7 +69,7 @@ const ExpenseTracker = ({expensesData, handleReset}) => {
         <ExpenseModal addExpenses={addExpenses} modalWhich={"Add Expenses"}/>
       </div>
       <div className={styles.pieContainer}>
-        <h1>Hello</h1>
+        <ExpensePie />
       </div>
     </div>
   );

@@ -50,7 +50,9 @@ if(modalWhich === "Add Balance"){
           open={open}
           footer={null}
           centered
+            onCancel={() => setOpen(false)}
           closeIcon={null}
+          keyboard={true}
         >
           {modalWhich == "Add Balance" && <form onSubmit={(e) => addIncomeForm(e)}>
               <label htmlFor="addBalance"><h1>{modalWhich}</h1></label>
@@ -72,6 +74,8 @@ if(modalWhich === "Add Balance"){
             footer={null}
             centered
             closeIcon={null}
+            keyboard={true}
+            onCancel={() => setOpen(false)}
           >
             {modalWhich == "Add Expenses" &&<form onSubmit={(e) => addExpenseForm(e)}>
             <h1>{modalWhich}</h1>
