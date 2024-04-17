@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { PieChart, Pie, Sector, Cell, ResponsiveContainer } from 'recharts';
+import { PieChart, Pie, Sector, Cell, ResponsiveContainer, Legend } from 'recharts';
 import { ExpenseListStore } from './Dashboard';
 
 
@@ -13,23 +13,29 @@ const ExpensePie = () => {
 
     const [getData, setData] = useState([])
     
-    // useEffect(() => {
+    useEffect(() => {
+        const foodVal = totalPieValue(expenseList, 'Food');
+        const travelVal = totalPieValue(expenseList, 'Travel');
+        const entertainmentVal = totalPieValue(expenseList, 'Entertainment');
 
 
-        
-    //     // console.log(obj)
-        
-    //     // setData([{name: "Food", value: totalPrice}, ...getData])
-    // }, [expenseList])
+        setData([{ name: 'Food', value:  foodVal},
+        { name: 'Travel', value: travelVal },
+        { name: 'Entertainment', value:  entertainmentVal},])
+ 
+    }, [expenseList])
 
 
+    const totalPieValue = (list, category) => {
+        let totalFoodVal = 0;
+        let foodArr = list.filter(x => x.category === category);
+        for(let i = 0; i<foodArr.length; i++){
+            totalFoodVal+=foodArr[i].price
+        }
+        return totalFoodVal;
+    }
 
-    const data = [
-        { name: 'Group A', value: 400 },
-        { name: 'Group B', value: 300 },
-        { name: 'Group C', value: 300 },
-        { name: 'Group D', value: 200 },
-      ];
+    const data = getData
       
       const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
       
@@ -58,11 +64,14 @@ const ExpensePie = () => {
             outerRadius={80}
             fill="#8884d8"
             dataKey="value"
+
           >
             {data.map((entry, index) => (
               <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
             ))}
           </Pie>
+
+        <Legend />
         </PieChart>
       </ResponsiveContainer>
     );
