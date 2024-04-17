@@ -1,0 +1,18 @@
+*{
+  padding: 0;
+  margin: 0;
+}
+
+:root {
+  --background-color: #3B3B3B;
+  --primary-background: #9B9B9B;
+  --secondary-background: #626262;
+  --modal-background: #F1F1F1;
+  --primary-button: #F4BB4A;
+  --text-white: #FFFFFF;
+}
+
+
+body{
+  background-color: var(--background-color);
+}

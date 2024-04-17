@@ -1,0 +1,29 @@
+.expenseContainer {
+    display: flex;
+    flex-wrap: wrap;
+    border: 1px solid black;
+    margin: 2%;
+}
+
+
+.walletContainer {
+    background-color: var(--primary-background);
+    width: 36%;
+    height: 100%;
+    border: 1px solid black;
+}
+
+.addExpenseContainer {
+    background-color: var(--primary-background);
+    width: 30%;
+    height: 100%;
+    border: 1px solid black;
+}
+
+.pieContainer {
+    background-color: var(--primary-background);
+    width: 30%;
+    height: 100%;
+    border: 1px solid black;
+    flex-grow: 1;
+}
