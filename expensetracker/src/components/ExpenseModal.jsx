@@ -3,6 +3,7 @@ import { Button, Modal } from 'antd';
 import {v4 as uuidv4} from 'uuid'
 import { FaPencilAlt } from 'react-icons/fa';
 import { ExpenseListStore } from './Dashboard';
+import styles from './ExpenseModal.module.css'
 
 const ExpenseModal = ({previousTransaction, modalWhich, setModal, getModal}) => {
   const [open, setOpen] = useState(false);
@@ -79,22 +80,25 @@ const addIncomeForm = (e) => {
 if(modalWhich === "Add Balance"){
     return (
       <>
-        <Button type="primary" onClick={showModal}>
+        <button className={styles.walletBtn} onClick={showModal}>
           {modalWhich}
-        </Button>
+        </button>
         <Modal
           open={open}
           footer={null}
           centered
-            onCancel={() => setOpen(false)}
+          onCancel={() => setOpen(false)}
           closeIcon={null}
           keyboard={true}
         >
           {modalWhich == "Add Balance" && <form onSubmit={(e) => addIncomeForm(e)}>
-              <label htmlFor="addBalance"><h1>{modalWhich}</h1></label>
+          <h1>{modalWhich}</h1>
+          <div className={styles.addWalletModal}>
+              <label htmlFor="addBalance"></label>
               <input type="number" id='addBalance' required ref={incomeRef}/>
-              <button type='submit'>Add income</button>
-              <button onClick={handleCancel}>Cancel</button>
+              <button type='submit' style={{backgroundColor: "var(--primary-button)"}}>Add income</button>
+              <button type='button' onClick={handleCancel}>Cancel</button>
+              </div>
           </form> }
         </Modal>
       </>
@@ -102,9 +106,9 @@ if(modalWhich === "Add Balance"){
 }else if(modalWhich === "Add Expenses"){
     return (
         <>
-          <Button type="primary" onClick={showModal}>
+          <button className={styles.expenseBtn} onClick={showModal}>
             {modalWhich}
-          </Button>
+          </button>
           <Modal
             open={open}
             footer={null}
@@ -112,25 +116,33 @@ if(modalWhich === "Add Balance"){
             closeIcon={null}
             keyboard={true}
             onCancel={() => setOpen(false)}
+            
           >
             {modalWhich == "Add Expenses" &&<form onSubmit={(e) => addExpenseForm(e)}>
             <h1>{modalWhich}</h1>
+            <div className={styles.addExpenseModal}>
+                <div className={styles.addExpenseModal1}>
                 <label htmlFor="addExpenses"></label>
-                <input type="text" id='addExpenses' required ref={expenseTitleRef}/>
-                <label htmlFor="addExpenses"></label>
-                <input type="number" id='addExpenses' required ref={expensePriceRef}/>
+                <input type="text" id='addExpenses'  required ref={expenseTitleRef}/>
+                <label htmlFor="addPrice"></label>
+                <input type="number" id='addPrice' required ref={expensePriceRef}/>
+                </div>
+                <div className={styles.addExpenseModal2}>
                 <label htmlFor="addCategory"></label>
                 <select name="addCategory" id="addCategory" required ref={expenseCategoryRef}>
                     <option value="Entertainment">Entertainment</option>
                     <option value="Food">Food</option>
                     <option value="Travel">Travel</option>
                 </select>
-                
                 <label htmlFor="expenseDate"></label>
                 <input type="date" id='expenseDate' required ref={expenseDateRef}/>
-
-                <button type='submit'>Add Expense</button>
+                </div>
+     
+                <div className={styles.addExpenseModal3}>
+                <button style={{backgroundColor: "var(--primary-button)"}} type='submit'>Add Expense</button>
                 <button onClick={handleCancel}>Cancel</button>
+                </div>
+                </div>
             </form>}
           </Modal>
         </>
@@ -139,9 +151,9 @@ if(modalWhich === "Add Balance"){
 else if(modalWhich === "Edit Transaction"){
   return (
       <>
-        <Button style={{backgroundColor: "var(--primary-button)", border: "none", borderRadius: "15px", color: 'white'}} onClick={showModal}>
+        <button className={styles.editBtn} onClick={showModal}>
         <FaPencilAlt size={20}/>
-        </Button>
+        </button>
         <Modal
           open={open}
           footer={null}
@@ -152,10 +164,19 @@ else if(modalWhich === "Edit Transaction"){
         >
           {modalWhich == "Edit Transaction" &&<form onSubmit={(e) => updateExpenseForm(e)}>
           <h1>{modalWhich}</h1>
+              <div className={styles.addExpenseModal}>
+
+              <div className={styles.addExpenseModal1}>
+
+
               <label htmlFor="addExpenses"></label>
               <input type="text" id='addExpenses' required value={getTitle} onChange={(e) => setTitle(e.target.value)}/>
-              <label htmlFor="addExpenses"></label>
-              <input type="number" id='addExpenses' required value={getPrice} onChange={(e) => setPrice(e.target.value)}/>
+              <label htmlFor="addPrice"></label>
+              <input type="number" id='addPrice' required value={getPrice} onChange={(e) => setPrice(e.target.value)}/>
+
+              </div>
+
+              <div className={styles.addExpenseModal2}>
               <label htmlFor="addCategory"></label>
               <select name="addCategory" id="addCategory" required value={getCategory} onChange={(e) => setCategory(e.target.value)}>
                   <option value="Entertainment">Entertainment</option>
@@ -163,11 +184,18 @@ else if(modalWhich === "Edit Transaction"){
                   <option value="Travel">Travel</option>
               </select>
               
+
+
               <label htmlFor="expenseDate"></label>
               <input type="date" id='expenseDate' required value={getDate} onChange={(e) => setDate(e.target.value)}/>
 
-              <button type='submit'>Edit Expense</button>
+              </div>
+
+              <div className={styles.addExpenseModal3}>
+              <button type='submit' style={{backgroundColor: "var(--primary-button)"}}>Edit Expense</button>
               <button onClick={handleCancel}>Cancel</button>
+              </div>
+              </div>
           </form>}
         </Modal>
       </>

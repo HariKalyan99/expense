@@ -13,11 +13,13 @@ const ExpenseTracker = () => {
   return (
     <div className={styles.expenseContainer}>
       <div className={styles.walletContainer}>
-        <h1>Wallet Balance: ₹{showWallet}</h1>
+        <h1 style={{textAlign: "center"}}>Wallet Balance: ₹{showWallet}</h1>
+        <br />
         <ExpenseModal modalWhich={"Add Balance"}/>
       </div>
       <div className={styles.addExpenseContainer}>
-        <h1>Expenses: ₹{showExpenses}</h1>
+        <h1 style={{textAlign: "center"}}>Expenses: ₹{showExpenses}</h1>
+        <br />
         <ExpenseModal  modalWhich={"Add Expenses"}/>
       </div>
       <div className={styles.pieContainer}>

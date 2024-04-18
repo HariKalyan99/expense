@@ -16,3 +16,7 @@
 body{
   background-color: var(--background-color);
 }
+
+.ant-modal-content {
+  background-color: #EFEFEF !important;
+}

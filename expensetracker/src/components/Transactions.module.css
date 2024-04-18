@@ -1,0 +1,28 @@
+.editBtn{
+    background-color: #F4BB4A; color: var(--text-white);
+height: 35px;
+border-radius: 10px;
+border: none;
+width: 50px;
+}
+
+
+.editBtn:hover {
+    background-color: #f0a000;
+    cursor: pointer;
+}
+
+
+.resetBtn{
+    background-color: rgba(255,71,71,1);
+border: none; border-radius: 20px; width: 50px; color: var(--text-white);
+height: 50px;
+padding: 5px;
+}
+
+
+.resetBtn:hover {
+    background-color: rgba(255,56,56,1);
+    cursor: pointer;
+}
+

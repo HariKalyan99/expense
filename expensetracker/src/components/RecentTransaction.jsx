@@ -4,6 +4,8 @@ import { ExpenseListStore } from "./Dashboard";
 import Transactions from "./Transactions";
 import { FaArrowLeftLong } from "react-icons/fa6";
 import { FaArrowRightLong } from "react-icons/fa6";
+import styles from './RecentTransaction.module.css'
+
 
 const RecentTransaction = () => {
   const [btnCount, setBtnCount] = useState(1);
@@ -37,22 +39,22 @@ const RecentTransaction = () => {
       style={{
         display: "flex",
         flexDirection: "column",
-        justifyContent: "center",
+        justifyContent: "flex-start",
         alignItems: "center",
         width: "100%",
         height: "100%",
-        position: 'relative', 
+        position: 'relative',
       }}
     >
       {curretTransactionsList.length > 0 &&
         curretTransactionsList.map((listItem, ind) => (
           <Transactions key={ind} listItem={listItem} />
         ))}
-      <div style={{ display: "flex", position: 'absolute', bottom: 3 }}>
+      <div style={{ display: "flex", position: 'absolute', bottom: 10 }}>
         <button
           onClick={() => paginateButton("prev")}
           disabled={btnCount === 1 && true}
-          style={{height: "40px", width: "40px", margin: "10px", borderRadius: "15px", border: "none", backgroundColor: "#F1F1F1", boxShadow: "0px 5px 1rem black"}}
+          className={styles.paginateArrow}
         >
           <FaArrowLeftLong />
         </button>
@@ -61,7 +63,7 @@ const RecentTransaction = () => {
         <button
           onClick={() => paginateButton("next")}
           disabled={expenseList.length <= btnCount * 3 && true}
-          style={{height: "40px", width: "40px", margin: "10px", borderRadius: "15px", border: "none", backgroundColor: "#F1F1F1", boxShadow: "0px 5px 1rem black"}}
+          className={styles.paginateArrow}
         >
           <FaArrowRightLong />
         </button>

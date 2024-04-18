@@ -189,6 +189,7 @@ const Dashboard = () => {
     }
   
   return (
+    <>
     <ExpenseListStore.Provider value={{ expenseList, handleReset, addTransaction, showWallet, showExpenses,  expensesData, handleDelete, updateTransaction, addIncomeBalance }}>
       <div className={styles.mainContainer}>
         <div style={{ display: "flex", width: "100%" }}>
@@ -202,11 +203,12 @@ const Dashboard = () => {
           />
         </div>
         <div className={styles.container2}>
-          <div className={styles.transactionsContainer} style={{marginBottom: "3rem"}}>
+          <div className={styles.transactionsContainer} >
           <div style={{ display: "flex", width: "100%",  marginBottom: "1rem"}}>
             <h1 style={{ textAlign: "left, ", color: "var(--text-white)" }}>
               Recent Transactions
             </h1>
+            <button className={styles.resetBtn} onClick={() => handleReset()}>Reset</button>
           </div>
           <div className={styles.subContainer1}>
             <RecentTransaction expensesData={expensesData}/>
@@ -224,9 +226,12 @@ const Dashboard = () => {
           </div>
           </div>
         </div>
-        <button onClick={() => handleReset()}>Reset</button>
+        
       </div>
+      
     </ExpenseListStore.Provider>
+    
+    </>
   );
 };
 

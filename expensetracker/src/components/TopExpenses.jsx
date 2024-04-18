@@ -75,7 +75,7 @@ const TopExpenses = () => {
       >
           <YAxis dataKey="name" type="category" axisLine={false} width={1}/>
           <XAxis type="number" hide/>
-        <Bar dataKey="value" barSize={20} fill="#413ea0" animationEasing='ease-in'/>
+        <Bar dataKey="value" barSize={20} fill="#8784D2" animationEasing='ease-in'/>
       </ComposedChart>}
     </ResponsiveContainer>
   );
