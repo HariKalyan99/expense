@@ -20,12 +20,11 @@ const ExpenseModal = ({previousTransaction, modalWhich}) => {
   const [getDate, setDate] = useState("")
 
   
-  const {addTransaction, expenseList, updateTransaction} = useContext(ExpenseListStore)
+  const {addTransaction, updateTransaction} = useContext(ExpenseListStore)
 
 
   useEffect(() => {
     if(modalWhich === "Edit Transaction"){
-      console.log(true)
       setTitle(previousTransaction.title )
       setPrice(previousTransaction.price )
       setCategory(previousTransaction.category)
@@ -41,21 +40,12 @@ const ExpenseModal = ({previousTransaction, modalWhich}) => {
     setOpen(false);
   };
 
-  // const addIncomeForm = (e) => {
-  //   e.preventDefault();
-  //   addIncomeBalance(Number(incomeRef.current.value));
-  //   incomeRef.current.value = ""
-  //   setOpen(!open)
-  // }
-
 
   const addExpenseForm = (e) => {
     e.preventDefault();
 
     addTransaction({ title: expenseTitleRef.current.value, price: Number(expensePriceRef.current.value), category: expenseCategoryRef.current.value, date: expenseDateRef.current.value, id: uuidv4()})
-    // localStorage.setItem('expenseListFromLocal', JSON.stringify([{ title: expenseTitleRef.current.value, price: Number(expensePriceRef.current.value), category: expenseCategoryRef.current.value, date: expenseDateRef.current.value, id: uuidv4()}, ...JSON.parse(localStorage.getItem('expenseListFromLocal'))]));
 
-    // addExpenses(Number(expensePriceRef.current.value));
     expenseTitleRef.current.value = "";
     expensePriceRef.current.value = "";
     expenseCategoryRef.current.value = "";

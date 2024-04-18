@@ -10,7 +10,6 @@ const ExpensePie = () => {
 
     const {expenseList} = useContext(ExpenseListStore)
 
-
     const [getData, setData] = useState([])
     
     useEffect(() => {
