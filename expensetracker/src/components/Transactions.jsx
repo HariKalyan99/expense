@@ -22,7 +22,7 @@ const Transactions = ({listItem}) => {
             <h4>Rs.{listItem.price}</h4>
             <button onClick={() => handleDelete(listItem.id, listItem.price)}><MdOutlineCancel /></button>
             <button onClick={() => setModal(!getModal)}>Click</button>
-            {getModal && <ExpenseModal  previousTransaction={listItem} modalWhich={"Edit Transaction"}/>}
+            {getModal && <ExpenseModal  previousTransaction={listItem} setModal={setModal} getModal={getModal} modalWhich={"Edit Transaction"}/>}
             
         </div>
     </div>

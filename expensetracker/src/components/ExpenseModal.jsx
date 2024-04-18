@@ -4,7 +4,7 @@ import {v4 as uuidv4} from 'uuid'
 import { FaPencilAlt } from 'react-icons/fa';
 import { ExpenseListStore } from './Dashboard';
 
-const ExpenseModal = ({previousTransaction, modalWhich}) => {
+const ExpenseModal = ({previousTransaction, modalWhich, setModal, getModal}) => {
   const [open, setOpen] = useState(false);
 
   const incomeRef = useRef("");
@@ -34,10 +34,12 @@ const ExpenseModal = ({previousTransaction, modalWhich}) => {
 
   const showModal = () => {
     setOpen(true);
+    
   };
 
   const handleCancel = () => {
     setOpen(false);
+    setModal(!getModal)
   };
 
 
@@ -51,6 +53,7 @@ const ExpenseModal = ({previousTransaction, modalWhich}) => {
     expenseCategoryRef.current.value = "";
     expenseDateRef.current.value = "";
     setOpen(!open)
+    setModal(!getModal)
 }
 
 
@@ -62,6 +65,7 @@ setPrice("")
 setCategory("")
 setDate("")
 setOpen(!open)
+setModal(!getModal)
 }
 
 const addIncomeForm = (e) => {
