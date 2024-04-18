@@ -15,7 +15,7 @@ const RecentTransaction = () => {
 
     const [currentPage, setCurrentPage] = useState(1);
     const [transactionsPerPage, setTransactionsPerPage] = useState(3);
-
+    
     useEffect(() => {
         setCurrentPage(btnCount)
     }, [btnCount])
@@ -33,10 +33,11 @@ const RecentTransaction = () => {
         }
     }
     
+    
   
   return (
     <div style={{display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", width: "100%", height: "100%"}}>
-       {curretTransactionsList.length > 0 && curretTransactionsList.map((listItem, ind) => <Transactions key={ind} listItem={listItem}/>)}
+       {curretTransactionsList.length > 0 && curretTransactionsList.map((listItem, ind) => <Transactions key={ind} listItem={listItem} />)}
        <div style={{display: "flex"}}>
        <button onClick={() => paginateButton("prev")} disabled={btnCount === 1 && true}><FaArrowLeftLong /></button>
        <div style={{height: "20px", width: "20px", border: "1px solid black"}}>
