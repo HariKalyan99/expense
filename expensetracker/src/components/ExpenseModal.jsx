@@ -139,8 +139,8 @@ if(modalWhich === "Add Balance"){
 else if(modalWhich === "Edit Transaction"){
   return (
       <>
-        <Button type="primary" onClick={showModal}>
-        <FaPencilAlt />
+        <Button style={{backgroundColor: "var(--primary-button)", border: "none", borderRadius: "15px", color: 'white'}} onClick={showModal}>
+        <FaPencilAlt size={20}/>
         </Button>
         <Modal
           open={open}

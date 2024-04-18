@@ -46,7 +46,7 @@
     width: 100%;
     height: 100%;
     border: 1px solid black;
-    background-color: var(--modal-background);
+    background-color: var(--text-white);
     border-radius: 1rem;
 }
 
@@ -54,6 +54,6 @@
     width: 100%;
     height: 100%;
     border: 1px solid black;
-    background-color: var(--modal-background);
+    background-color: var(--text-white);
     border-radius: 1rem;
 }

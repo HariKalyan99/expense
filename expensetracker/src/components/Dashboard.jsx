@@ -3,6 +3,7 @@ import ExpenseTracker from "./ExpenseTracker";
 import RecentTransaction from "./RecentTransaction";
 import TopExpenses from "./TopExpenses";
 import styles from "./Dashboard.module.css";
+import { useSnackbar } from 'notistack'
 
 export const ExpenseListStore = createContext({
   expenseList: [],
@@ -26,6 +27,11 @@ const Dashboard = () => {
 
     const [getTransactions, setTransactions] = useState(true);
 
+
+    const {enqueueSnackbar, closeSnackbar} = useSnackbar();
+
+
+
   useEffect(() => {
     let expenseTracker = localStorage.getItem("expenseTracker");
     if (!expenseTracker) {
@@ -34,7 +40,10 @@ const Dashboard = () => {
         totalExpense: 0,
       };
       localStorage.setItem("expenseTracker", JSON.stringify(expenses));
+      
     }
+    
+    
 
     let expensesListInLocal = localStorage.getItem("expenseListFromLocal");
     if (!expensesListInLocal) {
@@ -58,6 +67,7 @@ const Dashboard = () => {
           setShowExpenses(expenseObj.totalExpense);
         }
     }
+    
 }, [getTransactions])
 
 
@@ -76,6 +86,7 @@ const Dashboard = () => {
     localStorage.setItem("expenseListFromLocal", JSON.stringify([]));
     setTransactions(!getTransactions)
     setInvokeState(!invokeState);
+    enqueueSnackbar("Expense tracker reset successful", {variant: "success", anchorOrigin: {horizontal: "center", vertical: "top" }})
   };
 
   const addTransaction = ({title, price, category, date, id}) => {
@@ -90,6 +101,7 @@ const Dashboard = () => {
       localStorage.setItem('expenseTracker', JSON.stringify(expenseTrackerObj));
       setTransactions(!getTransactions)
       expensesData()
+      enqueueSnackbar("Added to your Expense List", {variant: "success", anchorOrigin: {horizontal: "center", vertical: "top" }})
     }
 
     
@@ -116,6 +128,7 @@ const Dashboard = () => {
         
           setTransactions(!getTransactions)
           expensesData()
+          enqueueSnackbar("Deleted from your Expense List", {variant: "error", anchorOrigin: {horizontal: "center", vertical: "top" }})
         
     }
 
@@ -133,18 +146,11 @@ const Dashboard = () => {
           
           localStorage.setItem('expenseTracker', JSON.stringify(expenseTrackerObj));
 
-          if(!isExpenseOnTrack(expenseTrackerObj.wallet, "CHECK_EQUAL")){
-            alert("Increase your balance");
-            setTransactions(!getTransactions)
-          expensesData()
-          }else{
-            setTransactions(!getTransactions)
-          expensesData()
-          }
-
-        
           
-      
+            setTransactions(!getTransactions)
+            expensesData()
+            enqueueSnackbar("Your Expense List was edited", {variant: "success", anchorOrigin: {horizontal: "center", vertical: "top" }})
+
     }
 
     const addIncomeBalance = (val) => {
@@ -152,37 +158,34 @@ const Dashboard = () => {
         if(val > 0){
             latest.wallet+=Number(val);
         }else{
-          alert("should be more than 0 edit noti")
+          enqueueSnackbar("Wallet balance should be more than 0", {variant: "success", anchorOrigin: {horizontal: "center", vertical: "top" }})
         }
 
         localStorage.setItem('expenseTracker', JSON.stringify(latest));
         setTransactions(!getTransactions)
         expensesData()
+        enqueueSnackbar("Your balance has been updated", {variant: "success", anchorOrigin: {horizontal: "center", vertical: "top" }})
     }
 
 
     const isExpenseOnTrack = (newTotalExpense, action) => {
       let latestEpenseTracker = JSON.parse(localStorage.getItem('expenseTracker'));
       let {wallet, totalExpense} = latestEpenseTracker;
-      console.log(wallet, newTotalExpense)
-      if(wallet !== 0){
         switch(action){
           case 'CHECK_ADD':
             if(newTotalExpense > wallet){
-              alert('keep your expenses less then wallet balance');
+              enqueueSnackbar("Your wallet balance is low", {variant: "warning", anchorOrigin: {horizontal: "center", vertical: "top" }})
               return false;
             }
           case "CHECK_EQUAL":
             if(newTotalExpense <= 0){
-              alert('upgrade your wallet, your balance will be low');
+              enqueueSnackbar("Your wallet balance is 0, Update your wallet.", {variant: "error", anchorOrigin: {horizontal: "center", vertical: "bottom" }})
               return false;
             }
           default:
             return true
         }
-      }else{
-        alert('upgrade your wallet, wallet balnce is "0"')
-      }
+      
     }
   
   return (
@@ -199,7 +202,7 @@ const Dashboard = () => {
           />
         </div>
         <div className={styles.container2}>
-          <div className={styles.transactionsContainer}>
+          <div className={styles.transactionsContainer} style={{marginBottom: "3rem"}}>
           <div style={{ display: "flex", width: "100%",  marginBottom: "1rem"}}>
             <h1 style={{ textAlign: "left, ", color: "var(--text-white)" }}>
               Recent Transactions
@@ -210,10 +213,10 @@ const Dashboard = () => {
           </div>
           </div>
 
-          <div className={styles.topExpensesContainer}>
+          <div className={styles.topExpensesContainer} style={{marginBottom: "3rem"}}>
           <div style={{ display: "flex", width: "100%",  marginBottom: "1rem"}}>
             <h1 style={{ textAlign: "left", color: "var(--text-white)" }}>
-              Recent Transactions
+              Top Expenses
             </h1>
           </div>
           <div className={styles.subContainer2}>

@@ -9,19 +9,24 @@ const Transactions = ({listItem}) => {
   const {handleDelete} = useContext(ExpenseListStore);
 
   const [getModal, setModal] = useState(false);
+
+  const convertDate = (date) => {
+    let newDate = new Date(date);
+    return newDate.toDateString()
+  }
  
 
   return (
-    <div style={{height: "80px", borderBottom: "1px solid black", display: "flex", justifyContent: "space-between", margin: "1rem", width: "90%" }}>
+    <div style={{height: "70px", borderBottom: "1px solid black", display: "flex", justifyContent: "space-between", margin: "1rem", width: "90%" }}>
     <div >
         <h1>{listItem.title}</h1>
-        <p>{listItem.date}</p>
+        <p>{convertDate(listItem.date)}</p>
         </div>
 
-        <div style={{display: "flex", justifyContent: "space-between", alignItems: "center", width: "200px"}}>
-            <h4>Rs.{listItem.price}</h4>
-            <button onClick={() => handleDelete(listItem.id, listItem.price)}><MdOutlineCancel /></button>
-            <button onClick={() => setModal(!getModal)}>Click</button>
+        <div style={{display: "flex", justifyContent: "space-evenly", alignItems: "center", width: "200px"}}>
+            <h2 style={{color: "var(--primary-button)"}}>₹{listItem.price}</h2>
+            <button style={{backgroundColor: "#FF3E3E", border: "none", borderRadius: "15px", padding: "5px"}} onClick={() => handleDelete(listItem.id, listItem.price)}><MdOutlineCancel color='white' size={30}/></button>
+            <button onClick={() => setModal(!getModal)} style={{backgroundColor: "var(--primary-button)", border: "none", borderRadius: "15px", padding: "10px", color: 'white'}}>Edit!</button>
             {getModal && <ExpenseModal  previousTransaction={listItem} setModal={setModal} getModal={getModal} modalWhich={"Edit Transaction"}/>}
             
         </div>

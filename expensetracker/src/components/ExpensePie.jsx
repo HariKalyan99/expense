@@ -51,10 +51,26 @@ const ExpensePie = () => {
         );
       };
 
+      const data01 = [{ name: 'Food', value:  200},
+      { name: 'Travel', value: 200 },
+      { name: 'Entertainment', value:  200}]
+
     return (
+      <>
       <ResponsiveContainer width="100%" height="100%">
         <PieChart width={400} height={400}>
-          <Pie
+          {!expenseList.length > 0 ? <Pie
+            dataKey="value"
+            data={data01}
+            cx="50%"
+            cy="50%"
+            outerRadius={70}
+            fill="#8884d8"
+          >
+            {data.map((entry, index) => (
+              <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+            ))}
+          </Pie> : <Pie
             data={data}
             cx="50%"
             cy="50%"
@@ -68,11 +84,13 @@ const ExpensePie = () => {
             {data.map((entry, index) => (
               <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
             ))}
-          </Pie>
+
+          </Pie>}
 
         <Legend />
         </PieChart>
       </ResponsiveContainer>
+      </>
     );
 }
 

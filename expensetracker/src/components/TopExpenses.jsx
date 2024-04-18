@@ -42,10 +42,14 @@ const TopExpenses = () => {
   
     const data = getData;
 
+    const data1 = [{ name: 'Food', value:  100},
+    { name: 'Travel', value: 100 },
+    { name: 'Entertainment', value:  100},]
+
 
   return (
     <ResponsiveContainer width="100%" height="100%">
-      <ComposedChart
+      {expenseList.length > 0 ? <ComposedChart
         layout="vertical"
         data={data}
         margin={{
@@ -57,8 +61,22 @@ const TopExpenses = () => {
       >
           <YAxis dataKey="name" type="category"  axisLine={false} width={1}/>
           <XAxis type="number" hide/>
+        <Bar dataKey="value" barSize={20} fill="#413ea0" animationEasing="ease-in-out"/>
+      </ComposedChart> : <ComposedChart
+        layout="vertical"
+        data={data1}
+        margin={{
+          top: 20,
+          right: 10,
+          bottom: 20,
+          left: 100,
+        }}
+        animationEasing="ease-in-out"
+      >
+          <YAxis dataKey="name" type="category" axisLine={false} width={1}/>
+          <XAxis type="number" hide/>
         <Bar dataKey="value" barSize={20} fill="#413ea0" animationEasing='ease-in'/>
-      </ComposedChart>
+      </ComposedChart>}
     </ResponsiveContainer>
   );
 }
