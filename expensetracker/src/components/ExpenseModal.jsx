@@ -20,7 +20,7 @@ const ExpenseModal = ({previousTransaction, modalWhich}) => {
   const [getDate, setDate] = useState("")
 
   
-  const {addTransaction, updateTransaction} = useContext(ExpenseListStore)
+  const {addTransaction, updateTransaction, addIncomeBalance} = useContext(ExpenseListStore)
 
 
   useEffect(() => {
@@ -56,12 +56,19 @@ const ExpenseModal = ({previousTransaction, modalWhich}) => {
 
 const updateExpenseForm = (e) => {
   e.preventDefault();
-  updateTransaction({ title: getTitle, price: Number(getPrice), category: getCategory, date: getDate, id: previousTransaction.id});
+  updateTransaction({ title: getTitle, price: Number(getPrice), category: getCategory, date: getDate, id: previousTransaction.id, prevPrice: previousTransaction.price});
   setTitle("")
 setPrice("")
 setCategory("")
 setDate("")
 setOpen(!open)
+}
+
+const addIncomeForm = (e) => {
+  e.preventDefault();
+  addIncomeBalance(incomeRef.current.value)
+  incomeRef.current.value = "";
+  setOpen(!open)
 }
 
   

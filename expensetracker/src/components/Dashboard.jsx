@@ -12,7 +12,8 @@ export const ExpenseListStore = createContext({
   showExpenses: 0,
   expensesData: () => {},
   handleDelete: () => {},
-  updateTransaction: () => {}
+  updateTransaction: () => {},
+  addIncomeBalance: () => {}
 });
 
 const Dashboard = () => {
@@ -49,10 +50,17 @@ const Dashboard = () => {
     const wallet = localStorage.getItem('expenseTracker');
     if(wallet){
         const expenseObj = JSON.parse(wallet);
-        setShowWallet(expenseObj.wallet)
-        setShowExpenses(expenseObj.totalExpense)
+        if(isExpenseOnTrack(expenseObj.wallet, "CHECK_EQUAL")){
+          setShowWallet(expenseObj.wallet);
+          setShowExpenses(expenseObj.totalExpense);
+        }else{
+          setShowWallet(expenseObj.wallet);
+          setShowExpenses(expenseObj.totalExpense);
+        }
     }
 }, [getTransactions])
+
+
 
 
   const expensesData = () => {
@@ -66,22 +74,25 @@ const Dashboard = () => {
     };
     localStorage.setItem("expenseTracker", JSON.stringify(toDefault));
     localStorage.setItem("expenseListFromLocal", JSON.stringify([]));
+    setTransactions(!getTransactions)
     setInvokeState(!invokeState);
   };
 
   const addTransaction = ({title, price, category, date, id}) => {
-    localStorage.setItem('expenseListFromLocal', JSON.stringify([{title, price, category, date, id}, ...JSON.parse(localStorage.getItem('expenseListFromLocal'))]));
 
-    let expenseTrackerObj = {};
-        let latest = JSON.parse(localStorage.getItem('expenseTracker'));
+    
+    if(isExpenseOnTrack(price, "CHECK_ADD")){
+      let expenseTrackerObj = {};
+    let latest = JSON.parse(localStorage.getItem('expenseTracker'));
+      expenseTrackerObj.wallet = latest.wallet - price
+    expenseTrackerObj.totalExpense = latest.totalExpense + price
+      localStorage.setItem('expenseListFromLocal', JSON.stringify([{title, price, category, date, id}, ...JSON.parse(localStorage.getItem('expenseListFromLocal'))]));
+      localStorage.setItem('expenseTracker', JSON.stringify(expenseTrackerObj));
+      setTransactions(!getTransactions)
+      expensesData()
+    }
 
-        expenseTrackerObj.wallet = latest.wallet - price
-        expenseTrackerObj.totalExpense = latest.totalExpense + price
-
-        
-        localStorage.setItem('expenseTracker', JSON.stringify(expenseTrackerObj));
-        setTransactions(!getTransactions)
-        expensesData()
+    
   } 
 
 
@@ -96,39 +107,86 @@ const Dashboard = () => {
         expenseTrackerObj.wallet = latest.wallet + price
         expenseTrackerObj.totalExpense = latest.totalExpense - price
 
-       
+        
         localStorage.setItem('expenseTracker', JSON.stringify(expenseTrackerObj));
-      const deletedList = expenseList.filter(x => x.id != id);
-      localStorage.setItem('expenseListFromLocal', JSON.stringify(deletedList))
-
-
-      
-        setTransactions(!getTransactions)
-        expensesData()
+        const deletedList = expenseList.filter(x => x.id != id);
+        localStorage.setItem('expenseListFromLocal', JSON.stringify(deletedList))
+  
+  
+        
+          setTransactions(!getTransactions)
+          expensesData()
+        
     }
 
 
 
 
-    const updateTransaction = ({title, price, category, date, id}) => {
-      const index = expenseList.findIndex(x => x.id === id);
-      const updateItem = expenseList.splice(index, 1, {title, price, category, date, id})
-      localStorage.setItem('expenseListFromLocal', JSON.stringify(expenseList))
-      let expenseTrackerObj = {};
-        let latest = JSON.parse(localStorage.getItem('expenseTracker'));
-        expenseTrackerObj.wallet = latest.wallet + updateItem[0].price - price
-        expenseTrackerObj.totalExpense = latest.totalExpense - updateItem[0].price + price
-        
-        localStorage.setItem('expenseTracker', JSON.stringify(expenseTrackerObj));
-      //bring reset
+    const updateTransaction = ({title, price, category, date, id, prevPrice}) => {
+        const index = expenseList.findIndex(x => x.id === id);
+        const updateItem = expenseList.splice(index, 1, {title, price, category, date, id})
+        localStorage.setItem('expenseListFromLocal', JSON.stringify(expenseList))
+        let expenseTrackerObj = {};
+          let latest = JSON.parse(localStorage.getItem('expenseTracker'));
+          expenseTrackerObj.wallet = latest.wallet + updateItem[0].price - price;
+          expenseTrackerObj.totalExpense = latest.totalExpense - updateItem[0].price + price;
+          
+          localStorage.setItem('expenseTracker', JSON.stringify(expenseTrackerObj));
 
+          if(!isExpenseOnTrack(expenseTrackerObj.wallet, "CHECK_EQUAL")){
+            alert("Increase your balance");
+            setTransactions(!getTransactions)
+          expensesData()
+          }else{
+            setTransactions(!getTransactions)
+          expensesData()
+          }
+
+        
+          
       
+    }
+
+    const addIncomeBalance = (val) => {
+        let latest = JSON.parse(localStorage.getItem('expenseTracker'));
+        if(val > 0){
+            latest.wallet+=Number(val);
+        }else{
+          alert("should be more than 0 edit noti")
+        }
+
+        localStorage.setItem('expenseTracker', JSON.stringify(latest));
         setTransactions(!getTransactions)
         expensesData()
+    }
+
+
+    const isExpenseOnTrack = (newTotalExpense, action) => {
+      let latestEpenseTracker = JSON.parse(localStorage.getItem('expenseTracker'));
+      let {wallet, totalExpense} = latestEpenseTracker;
+      console.log(wallet, newTotalExpense)
+      if(wallet !== 0){
+        switch(action){
+          case 'CHECK_ADD':
+            if(newTotalExpense > wallet){
+              alert('keep your expenses less then wallet balance');
+              return false;
+            }
+          case "CHECK_EQUAL":
+            if(newTotalExpense <= 0){
+              alert('upgrade your wallet, your balance will be low');
+              return false;
+            }
+          default:
+            return true
+        }
+      }else{
+        alert('upgrade your wallet, wallet balnce is "0"')
+      }
     }
   
   return (
-    <ExpenseListStore.Provider value={{ expenseList, handleReset, addTransaction, showWallet, showExpenses,  expensesData, handleDelete, updateTransaction }}>
+    <ExpenseListStore.Provider value={{ expenseList, handleReset, addTransaction, showWallet, showExpenses,  expensesData, handleDelete, updateTransaction, addIncomeBalance }}>
       <div className={styles.mainContainer}>
         <div style={{ display: "flex", width: "100%" }}>
           <h1 style={{ textAlign: "left", color: "var(--text-white)" }}>
@@ -163,6 +221,7 @@ const Dashboard = () => {
           </div>
           </div>
         </div>
+        <button onClick={() => handleReset()}>Reset</button>
       </div>
     </ExpenseListStore.Provider>
   );
