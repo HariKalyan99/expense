@@ -204,7 +204,7 @@ const Dashboard = () => {
         </div>
         <div className={styles.container2}>
           <div className={styles.transactionsContainer} >
-          <div style={{ display: "flex", width: "100%",  marginBottom: "1rem"}}>
+          <div style={{ display: "flex", width: "100%",  marginBottom: "1rem", justifyContent: "center", alignItems: "center"}}>
             <h1 style={{ textAlign: "left, ", color: "var(--text-white)" }}>
               Recent Transactions
             </h1>
